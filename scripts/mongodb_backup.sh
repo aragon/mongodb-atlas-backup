@@ -25,6 +25,7 @@ ZIP_FILENAME_DEFAULT="../mongoatlas_backup.zip"
 ###############
 p_magenta() { echo -e "\033[35m$1\033[0m" ;}
 p_green() { echo -e "\033[32m$1\033[0m" ;}
+p_red() { echo -e "\033[31m$1\033[0m"; }
 
 function install_mongosh(){
     p_green "install mongosh"
@@ -113,6 +114,10 @@ function mongodump_database(){
 #
 function dump_all_databases(){
     p_magenta "dumping server $(cut -d '.' -f1 <<< $1)"
+    if [[ ${#databases[@]} -le 0 ]];then 
+        p_red "There is no database selected"
+        exit 1
+    fi
     for db in "${databases[@]}";do
         mongodump_database $1 $db $2 $3
     done
