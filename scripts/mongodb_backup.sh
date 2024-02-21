@@ -25,11 +25,11 @@ ZIP_FILENAME_DEFAULT="../mongoatlas_backup.zip"
 
 function install_mongosh(){
     wget "${MONGO_DEB}"
-    apt install ./https://fastdl.mongodb.org/mongocli/mongocli_1.28.0_linux_x86_64.deb
+    sudo apt install ./https://fastdl.mongodb.org/mongocli/mongocli_1.28.0_linux_x86_64.deb
 }
 
 function install_dependencies(){
-    apt install wget jq zip
+    sudo apt install wget jq zip
 }
 function convert_databases_into_array(){
     IFS=',' read -r -a databases <<< "$MONGO_DATABASES"
