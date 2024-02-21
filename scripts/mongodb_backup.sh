@@ -103,6 +103,7 @@ function mongodump_database(){
     --ssl \
     -o dump/$(cut -d '.' -f1 <<< $1) \
     --gzip
+    -vv
 }
 
 # @param $1 database URL
