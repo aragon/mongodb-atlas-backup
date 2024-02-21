@@ -29,7 +29,7 @@ p_green() { echo -e "\033[32m$1\033[0m" ;}
 function install_mongosh(){
     p_green "install mongosh"
     wget "${MONGO_DEB}"
-    sudo apt install ./https://fastdl.mongodb.org/mongocli/mongocli_1.28.0_linux_x86_64.deb
+    sudo apt install $(echo ${MONGO_DEB}|rev|cut -d '/' -f1|rev)
 }
 
 function install_dependencies(){
