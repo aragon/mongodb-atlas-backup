@@ -17,7 +17,7 @@ jobs:
     - name: Execute backup script
       run: |
         cd scripts
-        chmod mongodb_backup.sh
+        chmod +x mongodb_backup.sh
         ./mongodb_backup.sh
     
     - name: Step 3 - Use the Upload Artifact GitHub Action
