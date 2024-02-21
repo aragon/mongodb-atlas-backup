@@ -29,7 +29,7 @@ p_green() { echo -e "\033[32m$1\033[0m" ;}
 function install_mongosh(){
     p_green "install mongosh"
     wget "${MONGO_DEB}"
-    sudo apt install $(echo ${MONGO_DEB}|rev|cut -d '/' -f1|rev)
+    sudo apt install ./$(echo ${MONGO_DEB}|rev|cut -d '/' -f1|rev)
 }
 
 function install_dependencies(){
