@@ -2,6 +2,7 @@
 #
 # Dump selected databases into a github artifacts encrypted
 #
+
 ########
 # VARS #
 ########
@@ -22,20 +23,25 @@ ZIP_FILENAME_DEFAULT="../mongoatlas_backup.zip"
 ###############
 # PREPARATION #
 ###############
+p_magenta() { echo -e "\033[35m$1\033[0m" ;}
+p_green() { echo -e "\033[32m$1\033[0m" ;}
 
 function install_mongosh(){
+    p_green "install mongosh"
     wget "${MONGO_DEB}"
     sudo apt install ./https://fastdl.mongodb.org/mongocli/mongocli_1.28.0_linux_x86_64.deb
 }
 
 function install_dependencies(){
-    sudo apt install wget jq zip
+    p_green "install dependencies"
+    sudo apt install wget jq zip -y
 }
 function convert_databases_into_array(){
     IFS=',' read -r -a databases <<< "$MONGO_DATABASES"
 }
 
 function preparation(){
+    p_magenta "preparation to run script"
     install_mongosh
     install_dependencies
     convert_databases_into_array
@@ -88,6 +94,7 @@ function mongoexport_collection(){
 # @param $5 mongodb collection
 
 function mongodump_database(){
+    p_green "dumping database $2"
     mongodump \
     --uri=mongodb+srv://$1 \
     -d $2 \
@@ -104,6 +111,7 @@ function mongodump_database(){
 # @param $3 mongodb password
 #
 function dump_all_databases(){
+    p_magenta "dumping server $(cut -d '.' -f1 <<< $1)"
     for db in "${databases[@]}";do
         mongodump_database $1 $db $2 $3
     done
@@ -117,6 +125,7 @@ function dump_all_databases(){
 # @param $2 encrypted file name
 # @param $3 route to encrypt
 function generate_password_protected_zip(){
+    p_magenta "Generating password protected zip"
     zip -e -r -P "$1" "$2" "$3"
 }
 
@@ -124,6 +133,7 @@ function generate_password_protected_zip(){
 # MAIN #
 ########
 function main(){
+    p_magenta "Main execution"
     preparation
     dump_all_databases ${MONGO_DB_URL} ${MONGO_USER} ${MONGO_PASS}
     generate_password_protected_zip "${BACKUPS_PASSWORD}" "${ZIP_FILENAME_DEFAULT}" "${ZIP_ROUTE_DEFAULT}"
