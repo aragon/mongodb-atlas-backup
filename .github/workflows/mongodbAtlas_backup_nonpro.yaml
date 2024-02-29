@@ -9,12 +9,31 @@ on:
 
 jobs:
        
-  archive-build-artifacts:
+  create_databases_backup:
     runs-on: ubuntu-latest
+    #workaround to use allways staging
+    environment: 'staging'
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Load credentials from 1Password
+      id: op-credentials
+      uses: 1password/load-secerts-action@v1
+      with:
+        export-env: false
+      env:
+        OP_SERVICE_ACCOUNT_TOKEN: ${{secrets.OP_SERVICE_ACCOUNT_TOKEN_NONPROD}}
+        MONGO_USER: op://apikeys_nonprod/staging_mongoatlas_BE-APP-STG_all-databases/username
+        MONGO_PASS: op://apikeys_nonprod/staging_mongoatlas_BE-APP-STG_all-databases/credential
+
     - name: Execute backup script
+      env:
+        MONGO_USER: ${{ steps.op-credentials.outputs.MONGO_USER}}
+        MONGO_PASS: ${{ steps.op-credentials.outputs.MONGO_PASS}}
+        MONGO_DATABASES: ${{env.MONGO_DATABASES}}
+        MONGO_DB_URL: ${{env.MONGO_DB_URL}}
+        BACKUPS_PASSWORD: ${{secrets.BACKUPS_PASSWORD}}
       run: |
         cd scripts
         chmod +x mongodb_backup.sh
