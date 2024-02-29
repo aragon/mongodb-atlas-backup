@@ -24,8 +24,8 @@ jobs:
         export-env: false
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{secrets.OP_SERVICE_ACCOUNT_TOKEN_NONPROD}}
-        MONGO_USER: op://apikeys_nonprod/staging_mongoatlas_BE-APP-STG_all-databases/username
-        MONGO_PASS: op://apikeys_nonprod/staging_mongoatlas_BE-APP-STG_all-databases/credential
+        MONGO_USER: op://apikeys_nonprod/mongoatlas_staging_BE-APP-STG_all-databases/username
+        MONGO_PASS: op://apikeys_nonprod/mongoatlas_staging_BE-APP-STG_all-databases/credential
 
     - name: Execute backup script
       env:
