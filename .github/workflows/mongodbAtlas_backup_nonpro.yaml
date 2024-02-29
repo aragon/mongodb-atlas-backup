@@ -31,9 +31,9 @@ jobs:
       env:
         MONGO_USER: ${{ steps.op-credentials.outputs.MONGO_USER}}
         MONGO_PASS: ${{ steps.op-credentials.outputs.MONGO_PASS}}
-        MONGO_DATABASES: ${{env.MONGO_DATABASES}}
-        MONGO_DB_URL: ${{env.MONGO_DB_URL}}
-        BACKUPS_PASSWORD: ${{secrets.BACKUPS_PASSWORD}}
+        MONGO_DATABASES: ${{ env.MONGO_DATABASES }}
+        MONGO_DB_URL: ${{ env.MONGO_DB_URL }}
+        BACKUPS_PASSWORD: ${{ secrets.BACKUPS_PASSWORD }}
       run: |
         cd scripts
         chmod +x mongodb_backup.sh
