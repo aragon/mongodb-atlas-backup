@@ -6,7 +6,7 @@
 ########
 # VARS #
 ########
-
+set -x
 MONGO_DEB='https://fastdl.mongodb.org/mongocli/mongocli_1.28.0_linux_x86_64.deb'
 
 ### Variables must be defined in github
